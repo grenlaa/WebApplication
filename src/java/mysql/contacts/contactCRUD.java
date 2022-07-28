@@ -4,19 +4,23 @@
  */
 package mysql.contacts;
 
+
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Properties;
+import utils.PropertiesUtil;
+
 
 public class contactCRUD {
     //
     //
     // Добавил библиотеку postgresql-42.4.0.jar
     // использовал драйвер org.postgresql.Driver
-    //
     //
     // БД таблица-contact
     // столбцы id_cont,fio,numbers,address     
@@ -30,7 +34,11 @@ public class contactCRUD {
         ArrayList<contactModel> contacts = new ArrayList<contactModel>();
         try {
             Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
-            try ( Connection conn = DriverManager.getConnection(url, username, password)) {
+//          
+//          Получение url имени и пароля БД из application.properties
+//          System.out.println("================"+PropertiesUtil.get("db.url")+PropertiesUtil.get("db.username")+PropertiesUtil.get("db.password"));
+//          
+            try ( Connection conn = DriverManager.getConnection(PropertiesUtil.get("db.url"),PropertiesUtil.get("db.username"),PropertiesUtil.get("db.password"))) {
 
                 Statement statement = conn.createStatement();
                 ResultSet resultSet = statement.executeQuery("SELECT * FROM contact");
@@ -55,7 +63,7 @@ public class contactCRUD {
         contactModel contact = null;
         try {
             Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
-            try ( Connection conn = DriverManager.getConnection(url, username, password)) {
+            try ( Connection conn = DriverManager.getConnection(PropertiesUtil.get("db.url"),PropertiesUtil.get("db.username"),PropertiesUtil.get("db.password"))) {
 
                 String sql = "SELECT * FROM contact WHERE id_cont=?";
                 try ( PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -81,7 +89,7 @@ public class contactCRUD {
 
         try {
             Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
-            try ( Connection conn = DriverManager.getConnection(url, username, password)) {
+            try ( Connection conn = DriverManager.getConnection(PropertiesUtil.get("db.url"),PropertiesUtil.get("db.username"),PropertiesUtil.get("db.password"))) {
 
                 String sql = "INSERT INTO contact (fio, address, numbers) Values (?, ?, ?)";
                 try ( PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -102,7 +110,7 @@ public class contactCRUD {
 
         try {
             Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
-            try ( Connection conn = DriverManager.getConnection(url, username, password)) {
+            try ( Connection conn = DriverManager.getConnection(PropertiesUtil.get("db.url"),PropertiesUtil.get("db.username"),PropertiesUtil.get("db.password"))) {
 
                 String sql = "UPDATE contact SET fio = ?, address = ?, numbers=? WHERE id_cont = ?";
                 try ( PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -124,7 +132,7 @@ public class contactCRUD {
 
         try {
             Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
-            try ( Connection conn = DriverManager.getConnection(url, username, password)) {
+            try ( Connection conn = DriverManager.getConnection(PropertiesUtil.get("db.url"),PropertiesUtil.get("db.username"),PropertiesUtil.get("db.password"))) {
 
                 String sql = "DELETE FROM contact WHERE id_cont = ?";
                 try ( PreparedStatement preparedStatement = conn.prepareStatement(sql)) {

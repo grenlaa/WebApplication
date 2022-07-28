@@ -26,7 +26,7 @@ public class list extends HttpServlet {
 
     private final Gson gson = new Gson();
 
-    //Рeчная сборка json строки
+    //Ручная сборка json строки
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,8 +41,7 @@ public class list extends HttpServlet {
         json +="\"address\":\""+contact.get(i).getaddress()+"\",";
         json +="\"number\":\""+ contact.get(i).getnumber()+"\"}";
         if(i!=contact.size()-1)
-        json+=",";        
-            
+        json+=",";            
         }
         json+="]";        
         response.getWriter().print(json);
@@ -51,6 +50,8 @@ public class list extends HttpServlet {
 }
 
 // Использование библиотеки gson для преобразования объекта в представление JSON
+//
+//
 //@WebServlet(name = "list", urlPatterns = {"/list"})
 //public class list extends HttpServlet {
 //
