@@ -12,16 +12,24 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class contactCRUD {
-
-    private static String url = "jdbc:mysql://localhost:3306/contacts";
-    private static String username = "root";
-    private static String password = "root";
+    //
+    //
+    // Добавил библиотеку postgresql-42.4.0.jar
+    // использовал драйвер org.postgresql.Driver
+    //
+    //
+    // БД таблица-contact
+    // столбцы id_cont,fio,numbers,address     
+    //    
+    private static String url = "jdbc:postgresql://localhost:5432/contacts";
+    private static String username = "postgres";
+    private static String password = "admin";
 
     public static ArrayList<contactModel> select() {
 
         ArrayList<contactModel> contacts = new ArrayList<contactModel>();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
             try ( Connection conn = DriverManager.getConnection(url, username, password)) {
 
                 Statement statement = conn.createStatement();
@@ -30,8 +38,8 @@ public class contactCRUD {
 
                     int id = resultSet.getInt(1);
                     String FIO = resultSet.getString(2);
-                    String address = resultSet.getString(3);
-                    String number = resultSet.getString(4);
+                    String number = resultSet.getString(3);
+                    String address = resultSet.getString(4);
                     contactModel contact = new contactModel(id, FIO, address, number);
                     contacts.add(contact);
                 }
@@ -46,18 +54,18 @@ public class contactCRUD {
 
         contactModel contact = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
             try ( Connection conn = DriverManager.getConnection(url, username, password)) {
 
-                String sql = "SELECT * FROM contact WHERE id=?";
+                String sql = "SELECT * FROM contact WHERE id_cont=?";
                 try ( PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                     preparedStatement.setInt(1, id);
                     ResultSet resultSet = preparedStatement.executeQuery();
                     if (resultSet.next()) {
                         int contid = resultSet.getInt(1);
                         String FIO = resultSet.getString(2);
-                        String number = resultSet.getString(4);
-                        String address = resultSet.getString(3);
+                        String number = resultSet.getString(3);
+                        String address = resultSet.getString(4);
                         contact = new contactModel(contid, FIO, address, number);
                     }
                 }
@@ -65,16 +73,17 @@ public class contactCRUD {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+
         return contact;
     }
 
     public static int insert(contactModel contact) {
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
             try ( Connection conn = DriverManager.getConnection(url, username, password)) {
 
-                String sql = "INSERT INTO contact (ФИО, Адрес, Телефон) Values (?, ?, ?)";
+                String sql = "INSERT INTO contact (fio, address, numbers) Values (?, ?, ?)";
                 try ( PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                     preparedStatement.setString(1, contact.getFIO());
                     preparedStatement.setString(2, contact.getaddress());
@@ -92,12 +101,12 @@ public class contactCRUD {
     public static int update(contactModel contact) {
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
             try ( Connection conn = DriverManager.getConnection(url, username, password)) {
 
-                String sql = "UPDATE contact SET ФИО = ?, Адрес = ?, Телефон=? WHERE id = ?";
+                String sql = "UPDATE contact SET fio = ?, address = ?, numbers=? WHERE id_cont = ?";
                 try ( PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                   preparedStatement.setString(1, contact.getFIO());
+                    preparedStatement.setString(1, contact.getFIO());
                     preparedStatement.setString(2, contact.getaddress());
                     preparedStatement.setString(3, contact.getnumber());
                     preparedStatement.setInt(4, contact.getId());
@@ -114,13 +123,12 @@ public class contactCRUD {
     public static int delete(int id) {
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
             try ( Connection conn = DriverManager.getConnection(url, username, password)) {
 
-                String sql = "DELETE FROM contact WHERE id = ?";
+                String sql = "DELETE FROM contact WHERE id_cont = ?";
                 try ( PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                     preparedStatement.setInt(1, id);
-
                     return preparedStatement.executeUpdate();
                 }
             }

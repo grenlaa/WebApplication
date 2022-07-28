@@ -42,9 +42,8 @@
             </div>
         </div>
         <script type="text/javascript">
-
             $("#btn1").click(function () {
-                $.getJSON('http://localhost:8084/contacts/list', function (data) {
+                $.getJSON('./list', function (data) {
                     $('#users').html("<tr><td>Id</td><td>ФИО</td><td>Адрес</td><td>Номер</td><tr>");
                     for (var i = 0; i < data.length; i++) {
                         $('#users').append('<tr><td>' + data[i].id + '</td><td>' + data[i].FIO +
@@ -52,10 +51,8 @@
                     }
                 });
             });
-
-
             $("#editBtn").click(function () {
-                $.getJSON('http://localhost:8084/contacts/edit?id=' + document.getElementById('add_id_user').value, function (data) {
+                $.getJSON('./edit?id=' + document.getElementById('add_id_user').value, function (data) {
                     $('#edit1').html(
                             '<label for="fname">Изменение</label><br><label for="fname">id</label><br><input type="id" id="id-edit" value="' + data.id + '"/><br>' +
                             '<label for="fname">ФИО</label><br><input type="text" id="FIO-edit"  value="' + data.FIO + '"/><br>' +
@@ -64,11 +61,10 @@
                             '<button type="submit">Изменить</button>');
                 });
             });
-
             $("#edit1").submit(function (event) {
                 // Предотвращаем обычную отправку формы
                 event.preventDefault();
-                $.post('http://localhost:8084/contacts/edit', {'id': $('#id-edit').val(), 'FIO': $('#FIO-edit').val(), 'address': $('#address-edit').val()
+                $.post('./edit', {'id': $('#id-edit').val(), 'FIO': $('#FIO-edit').val(), 'address': $('#address-edit').val()
                     , 'number': $('#number-edit').val()}, function (data) {
                     $('#result').html(data);
                 }
@@ -80,13 +76,13 @@
                         '<label for="fname">Создание</label><br><label for="fname">ФИО</label><br><input type="text" id="FIO-create"  /><br>' +
                         '<label for="fname">Адрес</label><br><input type="text" id="address-create" /><br>' +
                         '<label for="fname">Номер</label><br><input type="text" id="number-create"/><br>' +
-                        '<label for="fname">id</label><br><button type="submit">Добавить</button><br>');
+                        '<br><button type="submit">Добавить</button><br>');
 
             });
             $("#createF").submit(function (event) {
                 // Предотвращаем обычную отправку формы
                 event.preventDefault();
-                $.post('http://localhost:8084/contacts/add', {'FIO': $('#FIO-create').val(), 'address': $('#address-create').val()
+                $.post('./add', {'FIO': $('#FIO-create').val(), 'address': $('#address-create').val()
                     , 'number': $('#number-create').val()}, function (data) {
                     $('#result').html(data);
                 }
@@ -100,7 +96,7 @@
 
             });
             $("#delete").click(function () {
-                $.post('http://localhost:8084/contacts/delete', {'id': $('#delete_id_user').val()}, function (data) {
+                $.post('./delete', {'id': $('#delete_id_user').val()}, function (data) {
                     $('#result').html(data);
                 }
                 );

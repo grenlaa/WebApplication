@@ -38,7 +38,7 @@ public class contactModel implements Serializable {
     public int getId() {
         return id;
     }
-
+   
     public String getFIO() {
         return FIO;
     }

@@ -23,7 +23,7 @@ import mysql.contacts.contactModel;
 public class edit extends HttpServlet {
 
     private final Gson gson = new Gson();
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,7 +32,9 @@ public class edit extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
             contactModel contact = contactCRUD.selectOne(id);
             if (contact != null) {
-                response.addHeader("Content-Type", "application/json");
+
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
                 String json = gson.toJson(contact);
                 response.getWriter().print(json);
                 response.flushBuffer();
@@ -49,18 +51,18 @@ public class edit extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-           int id = Integer.parseInt(request.getParameter("id"));
+            int id = Integer.parseInt(request.getParameter("id"));
             String FIO = request.getParameter("FIO");
             String address = request.getParameter("address");
             String number = request.getParameter("number");
-            contactModel contact = new contactModel(id,FIO, address, number);
+            contactModel contact = new contactModel(id, FIO, address, number);
             contactCRUD.update(contact);
         } catch (Exception ex) {
 
             getServletContext().getRequestDispatcher("/notfound.jsp").forward(request, response);
         }
     }
-    
+
     @Override
     public String getServletInfo() {
         return "Short description";
