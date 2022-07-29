@@ -9,31 +9,32 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h2>Контакты</h2>
-        <div style="margin-bottom: 5px; ">
-            <button id="create">Create</button>
-        </div>
-        <div style="margin-bottom: 5px; ">
-            <button id="editBtn">Edit</button>
-            <input type="text" id="add_id_user">
-        </div>
-        <div style="margin-bottom: 5px; ">
-            <button id="delete">Delete</button>
-            <input type="text" id="delete_id_user">
-        </div>
-        <div style="margin-bottom: 5px; ">
-            <button id="btn1">Список</button>
-            <button id="close" style="margin-left: 5px;">Закрыть все окна</button>
-        </div>
 
         <div class="container" >
             <div style="width:40%; float: left">
-                <table id="users">
-
-                </table>
+                <h2>Контакты</h2>
+                <div style="margin-bottom: 5px; ">
+                    <button id="create">Create</button>
+                </div>
+                <div style="margin-bottom: 5px; ">
+                    <button id="editBtn">Edit</button>
+                    <input type="text" id="add_id_user">
+                </div>
+                <div style="margin-bottom: 5px; ">
+                    <button id="delete">Delete</button>
+                    <input type="text" id="delete_id_user">
+                </div>
+                <div style="margin-bottom: 5px; ">
+                    <button id="btn1">Список</button>
+                    <button id="close" style="margin-left: 5px;">Закрыть все окна</button>
+                </div>
+                <div  style="overflow:auto">
+                    <table id="users">
+                    </table>
+                </div>
             </div>
-            <div style="width:40%; left:50%;  float: left" >
-
+            <div style="width:40%; padding-left: 10px;  float: left" >
+                <br>
                 <form method="post" id="edit1">
                 </form>
 
@@ -54,7 +55,7 @@
             $("#editBtn").click(function () {
                 $.getJSON('./edit?id=' + document.getElementById('add_id_user').value, function (data) {
                     $('#edit1').html(
-                            '<label for="fname">Изменение</label><br><label for="fname">id</label><br><input type="id" id="id-edit" value="' + data.id + '"/><br>' +
+                            '<h3 for="fname">Изменение</h3><label for="fname">id</label><br><input type="id" id="id-edit" value="' + data.id + '"/><br>' +
                             '<label for="fname">ФИО</label><br><input type="text" id="FIO-edit"  value="' + data.FIO + '"/><br>' +
                             '<label for="fname">Адрес</label><br><input type="text" id="address-edit"  value="' + data.address + '"/><br>' +
                             '<label for="fname">Номер</label><br><input type="text" id="number-edit"  value="' + data.number + '"/><br>' +
@@ -73,9 +74,9 @@
             });
             $("#create").click(function () {
                 $('#createF').html(
-                        '<label for="fname">Создание</label><br><label for="fname">ФИО</label><br><input type="text" id="FIO-create"  /><br>' +
+                        '<h3 for="fname">Создание</h3><label for="fname">ФИО</label><br><input type="text" id="FIO-create"  /><br>' +
                         '<label for="fname">Адрес</label><br><input type="text" id="address-create" /><br>' +
-                        '<label for="fname">Номер</label><br><input type="text" id="number-create"/><br>' +
+                        '<label for="fname">Номер</label><br><input type="text" id="number-create"/>' +
                         '<br><button type="submit">Добавить</button><br>');
 
             });
